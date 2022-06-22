@@ -6,10 +6,17 @@ interface IRequest {
 }
 
 class ListAllUsersUseCase {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(private usersRepository: IUsersRepository) { }
 
   execute({ user_id }: IRequest): User[] {
-    // Complete aqui
+    const admin = this.usersRepository.findById(user_id)
+
+    if (!admin?.admin)
+      throw new Error("Credenciais não encontradas")
+
+    const list = this.usersRepository.list()
+
+    return list
   }
 }
 
